@@ -1,0 +1,52 @@
+version: '3.8'
+
+services:
+  trucks-test-api:    
+    depends_on:
+      - trucks-test-db
+
+    image: ${DOCKER_REGISTRY-}truckstestapi
+    container_name: trucks-test-api
+    restart: always
+
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - DB_CONNECTION_PASSWORD=${DB_PASSWORD:-"Passw0rd(!)"}
+      - DB_CONNECTION_STRING=Server=trucks-test-db;Database=project-database;User Id=SA;Password=${DB_PASSWORD:-"Passw0rd(!)"}
+      
+    ports:
+      - "8080:80"
+      - "8443:443"
+
+    build:
+      context: .
+      dockerfile: trucks-test.api/Dockerfile
+
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+   
+  trucks-test-db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: trucks-test-db
+
+    ports:
+      - "1433:1433"
+
+    environment: 
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=${DB_PASSWORD:-"Passw0rd(!)"}
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD:-"Passw0rd(!)"}
+
+    volumes:
+      - sql-server-volume:/var/opt/mssql
+      - ./server-init.sh:/server-init.sh
+      - ./db-init.sh:/db-init.sh
+      - ./db-init.sql:/db-init.sql
+
+    command: /bin/bash server-init.sh
+
+volumes: 
+  sql-server-volume:        
+    driver: local
