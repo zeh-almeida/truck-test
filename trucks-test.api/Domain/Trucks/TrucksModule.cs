@@ -24,12 +24,6 @@ namespace TrucksTest.API.Domain.Trucks
                 .InstancePerLifetimeScope();
 
             builder
-                .RegisterType<TruckService>()
-                .As<ITruckService>()
-                .PropertiesAutowired()
-                .InstancePerLifetimeScope();
-
-            builder
                 .RegisterType<UpdateTruckValidation>()
                 .As<IValidator<UpdateTruckInput>>()
                 .PropertiesAutowired()
@@ -38,6 +32,12 @@ namespace TrucksTest.API.Domain.Trucks
             builder
                 .RegisterType<CreateTruckValidation>()
                 .As<IValidator<CreateTruckInput>>()
+                .PropertiesAutowired()
+                .InstancePerLifetimeScope();
+
+            builder
+                .RegisterType<TruckService>()
+                .As<ITruckService>()
                 .PropertiesAutowired()
                 .InstancePerLifetimeScope();
         }

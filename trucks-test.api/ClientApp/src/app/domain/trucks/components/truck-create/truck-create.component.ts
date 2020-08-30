@@ -1,4 +1,6 @@
-import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import {
+  Component, EventEmitter, OnDestroy, OnInit, Output} from '@angular/core';
+
 import { FormGroup, FormBuilder } from '@angular/forms';
 
 import { Subscription } from 'rxjs';
@@ -18,9 +20,9 @@ export class TruckCreateComponent implements OnInit, OnDestroy {
   @Output() truckCreate: EventEmitter<any> = new EventEmitter();
 
   public orderForm: FormGroup;
+
   public loadingForm = false;
   public submitted = false;
-  public orderResult = "";
 
   private dataSubscription: Subscription;
 
@@ -52,10 +54,7 @@ export class TruckCreateComponent implements OnInit, OnDestroy {
       subscriptionCleaner(this.dataSubscription);
 
       this.dataSubscription = this.orderService.create(formData)
-        .subscribe(result => {
-          this.orderResult = result.data;
-          this.truckCreate.emit(null);
-        });
+        .subscribe(result => this.truckCreate.emit(null));
     }
   }
 }

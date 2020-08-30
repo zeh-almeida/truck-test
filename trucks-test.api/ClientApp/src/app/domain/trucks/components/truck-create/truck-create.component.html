@@ -1,42 +1,41 @@
 
-<div class="row">
-  <div class="card col-12 p-0">
-    <div class="card-header">
-      <h4 class="card-title">
-        <span>
-          <i class="fa fa-receipt"></i> Truck Creation
-        </span>
-      </h4>
-    </div>
+<div class="modal-content">
+  <div class="modal-header">
+    <h5 class="modal-title">Truck Creation</h5>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
 
-    <div class="card-body">
-      <form [formGroup]="orderForm" (ngSubmit)="doSubmit()">
-        <div class="row">
-          <div class="col-12">
-            <div class="form-group">
-              <label for="order">Order</label>
+  <form [formGroup]="orderForm" (ngSubmit)="doSubmit()">
+    <div class="modal-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="form-group">
+            <label for="order">Order</label>
 
-              <input class="form-control"
-                     id="order"
-                     min="10"
-                     placeholder="Place your order here"
-                     type="text"
-                     formControlName="order"
-                     [ngClass]="{ 'is-invalid': submitted && f.order.errors }" />
-            </div>
-          </div>
-
-          <div class="col-12">
-            <button type="button" class="btn btn-secondary mr-2" (click)="doCancel()">
-              <i class="fa fa-window-close"></i> Cancel
-            </button>
-
-            <button type="submit" class="btn btn-primary ml-2">
-              <i class="fa fa-plus-square"></i> Place Order
-            </button>
+            <input class="form-control"
+                   id="order"
+                   min="10"
+                   placeholder="Place your order here"
+                   type="text"
+                   formControlName="order"
+                   [ngClass]="{ 'is-invalid': submitted && f.order.errors }" />
           </div>
         </div>
-      </form>
+
+        <div class="col-12">
+        </div>
+      </div>
     </div>
-  </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary mr-2" (click)="doCancel()" data-dismiss="modal">
+        <i class="fa fa-window-close"></i> Cancel
+      </button>
+
+      <button type="submit" class="btn btn-primary ml-2">
+        <i class="fa fa-plus-square"></i> Create Truck
+      </button>
+    </div>
+  </form>
 </div>

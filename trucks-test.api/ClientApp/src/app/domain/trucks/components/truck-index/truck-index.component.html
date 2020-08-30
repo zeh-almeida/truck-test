@@ -1,2 +1,28 @@
-<app-truck-create (truckCreate)="onCreate($event)"></app-truck-create>
-<app-truck-list></app-truck-list>
+
+<div class="row">
+  <div class="card col-12 p-0">
+    <div class="card-header">
+      <h4 class="card-title">
+        <span>
+          <i class="fa fa-truck"></i> Truck Maintenance
+        </span>
+      </h4>
+    </div>
+
+    <div class="card-body">
+      <div class="row mb-3">
+        <button type="button" class="btn btn-primary" (click)="createTruck()">
+          <i class="fa fa-plus-square"></i> Create Truck
+        </button>
+      </div>
+
+      <div class="row mt-3">
+        <app-truck-list></app-truck-list>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #modalCreate let-close="close">
+  <app-truck-create (truckCreate)="onTruckCreate($event)"></app-truck-create>
+</ng-template>

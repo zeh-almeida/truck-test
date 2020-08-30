@@ -4,10 +4,10 @@
     <div class="card-header">
       <h4 class="card-title">
         <span>
-          <i class="fa fa-clock"></i> Order History
+          <i class="fa fa-list-alt"></i> Trucks
         </span>
 
-        <button class="btn btn-sm float-right text-light" type="button" (click)="onRefresh()">
+        <button class="btn btn-sm float-right" type="button" (click)="onRefresh()">
           <i class="fa fa-sync-alt fa-2x"></i>
         </button>
       </h4>
@@ -19,14 +19,17 @@
           <table class="table tablesorter table-bordered">
             <thead>
               <tr>
-                <th scope="col" class="d-table-cell">Input</th>
-                <th scope="col" class="d-table-cell">Output</th>
+                <th scope="col" class="d-table-cell">Type</th>
+                <th scope="col" class="d-table-cell">Fabrication Year</th>
+                <th scope="col" class="d-table-cell">Model Year</th>
+                <th scope="col" class="d-table-cell">Name</th>
+                <th scope="col" class="d-table-cell">Plate</th>
               </tr>
             </thead>
 
             <tbody *ngIf="!loaded">
               <tr>
-                <td colspan="2" class="text-center">
+                <td colspan="5" class="text-center">
                   <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
                 </td>
               </tr>
@@ -34,7 +37,7 @@
 
             <tbody *ngIf="loaded && !data.length">
               <tr>
-                <td colspan="2" class="text-center">
+                <td colspan="5" class="text-center">
                   No data found
                 </td>
               </tr>
@@ -43,11 +46,23 @@
             <tbody *ngIf="loaded && data.length">
               <tr *ngFor="let item of data">
                 <td class="d-table-cell">
-                  <p> {{ item.input }} </p>
+                  <p> {{ item.truckType }} </p>
                 </td>
 
                 <td class="d-table-cell">
-                  <p> {{ item.output }} </p>
+                  <p> {{ item.fabricationYear }} </p>
+                </td>
+
+                <td class="d-table-cell">
+                  <p> {{ item.modelYear }} </p>
+                </td>
+
+                <td class="d-table-cell">
+                  <p> {{ item.name }} </p>
+                </td>
+
+                <td class="d-table-cell">
+                  <p> {{ item.plate }} </p>
                 </td>
               </tr>
             </tbody>

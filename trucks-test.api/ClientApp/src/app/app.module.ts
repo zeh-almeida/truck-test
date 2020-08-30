@@ -4,12 +4,15 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { TruckModule } from './domain/trucks/trucks.module';
 
 import { AppComponent } from './app.component';
 
 import { NavMenuComponent } from './domain/common/components/nav-menu/nav-menu.component';
-import { HomeComponent } from './domain/common/components/home/home.component';
+
+import { TruckIndexComponent } from './domain/trucks/components/truck-index/truck-index.component';
 
 @NgModule({
   imports: [
@@ -17,17 +20,18 @@ import { HomeComponent } from './domain/common/components/home/home.component';
     HttpClientModule,
     FormsModule,
 
+    NgbModule,
+
     TruckModule,
 
     RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' }
+      { path: '', component: TruckIndexComponent, pathMatch: 'full' }
     ])
   ],
 
   declarations: [
     AppComponent,
-    NavMenuComponent,
-    HomeComponent
+    NavMenuComponent
   ],
 
   providers: [],

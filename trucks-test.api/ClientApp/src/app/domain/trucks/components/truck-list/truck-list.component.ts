@@ -21,6 +21,7 @@ export class TruckListComponent implements OnInit, OnDestroy {
 
   constructor(private orderService: TruckService) {
     this.loaded = false;
+    this.data = [];
   }
 
   ngOnInit() {

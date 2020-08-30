@@ -1,4 +1,5 @@
 using Autofac;
+using AutoMapper;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -57,6 +58,8 @@ namespace TrucksTest
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                         options.SerializerSettings.Converters.Add(new StringEnumConverter());
                     });
+
+            services.AddAutoMapper(typeof(Startup));
 
             services.AddSpaStaticFiles(configuration => configuration.RootPath = "ClientApp/dist");
             services.AddSwagger();

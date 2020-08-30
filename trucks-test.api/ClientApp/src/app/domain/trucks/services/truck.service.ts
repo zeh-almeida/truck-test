@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Observable, of } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
 import { AbstractService } from '../../common/services/abstract.service';
 
@@ -22,8 +22,8 @@ export class TruckService extends AbstractService {
   }
 
   getAll(): Observable<GetTruck[]> {
-    return this.http.get<GetTruck>(this.serviceUri)
-      .pipe(catchError(this.handleError<GetTruck>('getAll')));
+    return this.http.get<GetTruck[]>(this.serviceUri)
+      .pipe(catchError(this.handleError<GetTruck[]>('getAll', [])));
   }
 
   get(id: string): Observable<GetTruck> {
