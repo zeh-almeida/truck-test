@@ -24,5 +24,5 @@
 </div>
 
 <ng-template #modalCreate let-close="close">
-  <app-truck-create (truckCreate)="onTruckCreate($event)"></app-truck-create>
+  <app-truck-create (truckCreate)="onTruckCreate($event)" (close)="onModalClose($event)"></app-truck-create>
 </ng-template>

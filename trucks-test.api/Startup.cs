@@ -1,6 +1,5 @@
 using Autofac;
 using AutoMapper;
-using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -52,7 +51,7 @@ namespace TrucksTest
                     .AddHttpClient()
                     .AddControllers()
                     .AddControllersAsServices()
-                    .AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>())
+                    //.AddFluentValidation(c => c.RegisterValidatorsFromAssemblyContaining<Startup>())
                     .AddNewtonsoftJson(options =>
                     {
                         options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;

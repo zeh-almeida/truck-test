@@ -2,7 +2,7 @@
 <div class="modal-content">
   <div class="modal-header">
     <h5 class="modal-title">Truck Creation</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="doCancel()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
@@ -12,22 +12,103 @@
       <div class="row">
         <div class="col-12">
           <div class="form-group">
-            <label for="order">Order</label>
+            <label for="order">Truck Type</label>
 
-            <input class="form-control"
-                   id="order"
-                   min="10"
-                   placeholder="Place your order here"
-                   type="text"
-                   formControlName="order"
-                   [ngClass]="{ 'is-invalid': submitted && f.order.errors }" />
+            <div class="input-group">
+              <div class="input-group-prepend" id="truckType-describe">
+                <span class="input-group-text">*</span>
+              </div>
+
+              <select class="form-control"
+                      id="truckType"
+                      formControlName="truckType"
+                      aria-describedby="truckType-describe"
+                      [ngClass]="{ 'is-invalid': submitted && f.truckType.errors }">
+
+                <option *ngFor="let type of types" [ngValue]="type">
+                  {{type}}
+                </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="order">Fabrication Year</label>
+
+            <div class="input-group">
+              <div class="input-group-prepend" id="fabricationYear-describe">
+                <span class="input-group-text">*</span>
+              </div>
+
+              <input class="form-control"
+                     id="fabricationYear"
+                     placeholder=""
+                     type="number"
+                     formControlName="fabricationYear"
+                     aria-describedby="fabricationYear-describe"
+                     [ngClass]="{ 'is-invalid': submitted && f.fabricationYear.errors }" />
+            </div>
           </div>
         </div>
 
-        <div class="col-12">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="order">Model Year</label>
+
+            <div class="input-group">
+              <div class="input-group-prepend" id="modelYear-describe">
+                <span class="input-group-text">*</span>
+              </div>
+
+              <input class="form-control"
+                     id="modelYear"
+                     placeholder=""
+                     type="number"
+                     formControlName="modelYear"
+                     aria-describedby="modelYear-describe"
+                     [ngClass]="{ 'is-invalid': submitted && f.modelYear.errors }" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group">
+            <label for="order">Truck Name</label>
+
+            <div class="input-group">
+              <input class="form-control"
+                     id="name"
+                     placeholder=""
+                     type="text"
+                     formControlName="name"
+                     [ngClass]="{ 'is-invalid': submitted && f.name.errors }" />
+            </div>
+          </div>
+        </div>
+
+        <div class="col-6">
+          <div class="form-group">
+            <label for="order">Truck Plate</label>
+
+            <div class="input-group">
+              <input class="form-control"
+                     id="plate"
+                     placeholder=""
+                     type="text"
+                     formControlName="plate"
+                     [ngClass]="{ 'is-invalid': submitted && f.plate.errors }" />
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
     <div class="modal-footer">
       <button type="button" class="btn btn-secondary mr-2" (click)="doCancel()" data-dismiss="modal">
         <i class="fa fa-window-close"></i> Cancel

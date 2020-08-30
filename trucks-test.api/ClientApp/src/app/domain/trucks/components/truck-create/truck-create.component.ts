@@ -9,7 +9,7 @@ import { subscriptionCleaner } from '../../../common/tools.utils';
 
 import { TruckService } from '../../services/truck.service';
 
-import { CreateTruck, FormOptions, FormValidations } from '../../models/create-truck.model';
+import { CreateTruck, FormOptions, FormValidations, ValidTruckTypes } from '../../models/create-truck.model';
 
 @Component({
   selector: 'app-truck-create',
@@ -18,8 +18,10 @@ import { CreateTruck, FormOptions, FormValidations } from '../../models/create-t
 })
 export class TruckCreateComponent implements OnInit, OnDestroy {
   @Output() truckCreate: EventEmitter<any> = new EventEmitter();
+  @Output() close: EventEmitter<any> = new EventEmitter();
 
   public orderForm: FormGroup;
+  public types = ValidTruckTypes;
 
   public loadingForm = false;
   public submitted = false;
@@ -42,6 +44,7 @@ export class TruckCreateComponent implements OnInit, OnDestroy {
 
   doCancel() {
     this.orderForm.reset();
+    this.close.emit(null);
   }
 
   doSubmit() {

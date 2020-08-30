@@ -14,13 +14,10 @@ namespace TrucksTest.API.Domain.Trucks.Validations
 
             #region Truck Type
             this.RuleFor(m => m.TruckType)
-                .NotEmpty()
-                .WithErrorCode(ErrorCodes.TruckType)
-
                 .IsInEnum()
                 .WithErrorCode(ErrorCodes.TruckType)
 
-                .Must(p => p == TruckType.FH || p == TruckType.FM)
+                .Must(p => TruckType.FH.Equals(p) || TruckType.FM.Equals(p))
                 .WithErrorCode(ErrorCodes.TruckType);
             #endregion
 

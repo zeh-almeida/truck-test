@@ -41,7 +41,11 @@ export class TruckIndexComponent implements OnInit, OnDestroy {
     this.modal.open(this.createModal, { size: 'lg' });
   }
 
-  onTruckCreate(event:any) {
+  onModalClose(event: any) {
+    this.modal.dismissAll();
+  }
+
+  onTruckCreate(event: any) {
     this.listComponent.onRefresh();
   }
 }
