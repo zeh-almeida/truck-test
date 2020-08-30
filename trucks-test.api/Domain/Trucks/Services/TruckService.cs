@@ -105,8 +105,7 @@ namespace TrucksTest.API.Domain.Trucks.Services
             var removed = this.Repository.RemoveTruck(data);
             this.Repository.Save();
 
-            removed.Reload();
-            return this.ModelMapper.Map<GetTruckResult>(removed.Entity);
+            return this.ModelMapper.Map<GetTruckResult>(data);
         }
         #endregion
 

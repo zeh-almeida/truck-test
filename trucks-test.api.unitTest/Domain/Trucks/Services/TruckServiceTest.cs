@@ -2,10 +2,13 @@
 using AutoMapper;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using FluentValidation;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using TrucksTest.API.Domain.Commons.Repositories.Context;
 using TrucksTest.API.Domain.Trucks;
 using TrucksTest.API.Domain.Trucks.Models.Entities;
 using TrucksTest.API.Domain.Trucks.Models.Input;
@@ -47,10 +50,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 }
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(resultData.AsQueryable());
+            using var context = this.BuildContext();
+            context.Trucks.AddRange(resultData);
+            context.SaveChanges();
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
             var response = subject.GetAll();
 
             Assert.NotNull(response);
@@ -70,10 +74,9 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
         [Fact]
         public void GetAll_WithoutData_Empty()
         {
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck>().AsQueryable());
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
-            var subject = this.BuildService(mockRepository);
             var response = subject.GetAll();
 
             Assert.NotNull(response);
@@ -93,12 +96,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var resultData = new List<Truck> { model };
+            using var context = this.BuildContext();
+            context.Trucks.Add(model);
+            context.SaveChanges();
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(resultData.AsQueryable());
-
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
             var response = subject.GetSingle(model.Id.ToString());
 
             Assert.NotNull(response);
@@ -114,10 +116,9 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
         [Fact]
         public void GetSingle_WithoutMatch_Null()
         {
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck>().AsQueryable());
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
-            var subject = this.BuildService(mockRepository);
             var response = subject.GetSingle(string.Empty);
 
             Assert.Null(response);
@@ -137,15 +138,6 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Name = "Truck",
                 Plate = "AAA0000"
             };
-            var resultModel = new Truck
-            {
-                Id = model.Id,
-                TruckType = TruckType.FM,
-                ModelYear = DateTime.Now.Year,
-                FabricationYear = DateTime.Now.Year,
-                Name = "Truck0",
-                Plate = "AAA0001"
-            };
 
             var input = new UpdateTruckInput
             {
@@ -156,12 +148,12 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0001"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { resultModel }.AsQueryable());
-            mockRepository.Setup(m => m.UpdateTruck(It.IsAny<Truck>())).Returns(resultModel);
-            mockRepository.Setup(m => m.Save()).Verifiable();
+            using var context = this.BuildContext();
+            var entity = context.Add(model);
+            context.SaveChanges();
+            entity.State = EntityState.Detached;
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
             var response = subject.Update(model.Id.ToString(), input);
 
             Assert.NotNull(response);
@@ -177,10 +169,9 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
         [Fact]
         public void Update_NonExistingModel_Null()
         {
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { }.AsQueryable());
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
-            var subject = this.BuildService(mockRepository);
             var response = subject.Update(Guid.NewGuid().ToString(), new UpdateTruckInput
             {
                 TruckType = TruckType.FM,
@@ -206,10 +197,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
+            using var context = this.BuildContext();
+            context.Trucks.Add(model);
+            context.SaveChanges();
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
             var response = subject.Update(null, new UpdateTruckInput());
 
             Assert.Null(response);
@@ -228,10 +220,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
+            using var context = this.BuildContext();
+            context.Trucks.Add(model);
+            context.SaveChanges();
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
 
             Assert.ThrowsAny<ArgumentNullException>(() => subject.Update(model.Id.ToString(), null));
         }
@@ -251,10 +244,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
+            using var context = this.BuildContext();
+            context.Trucks.Add(model);
+            context.SaveChanges();
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
 
             Assert.Throws<ValidationException>(() => subject.Update(model.Id.ToString(), new UpdateTruckInput
             {
@@ -279,10 +273,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
+            using var context = this.BuildContext();
+            context.Trucks.Add(model);
+            context.SaveChanges();
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
 
             Assert.Throws<ValidationException>(() => subject.Update(model.Id.ToString(), new UpdateTruckInput
             {
@@ -307,10 +302,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
+            using var context = this.BuildContext();
+            context.Trucks.Add(model);
+            context.SaveChanges();
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
 
             Assert.Throws<ValidationException>(() => subject.Update(model.Id.ToString(), new UpdateTruckInput
             {
@@ -337,12 +333,11 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
-            mockRepository.Setup(m => m.RemoveTruck(It.IsAny<Truck>())).Returns(model);
-            mockRepository.Setup(m => m.Save()).Verifiable();
+            using var context = this.BuildContext();
+            context.Trucks.Add(model);
+            context.SaveChanges();
 
-            var subject = this.BuildService(mockRepository);
+            var subject = this.BuildService(context);
             var response = subject.Delete(model.Id.ToString());
 
             Assert.NotNull(response);
@@ -352,10 +347,9 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
         [Fact]
         public void Delete_NonExistingModel_Null()
         {
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { }.AsQueryable());
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
-            var subject = this.BuildService(mockRepository);
             var response = subject.Delete(Guid.NewGuid().ToString());
 
             Assert.Null(response);
@@ -364,20 +358,9 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
         [Fact]
         public void Delete_WithoutId_Null()
         {
-            var model = new Truck
-            {
-                Id = Guid.NewGuid(),
-                TruckType = TruckType.FH,
-                ModelYear = DateTime.Now.Year,
-                FabricationYear = DateTime.Now.Year,
-                Name = "Truck",
-                Plate = "AAA0000"
-            };
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
-
-            var subject = this.BuildService(mockRepository);
             var response = subject.Delete(null);
 
             Assert.Null(response);
@@ -398,10 +381,8 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
-
-            var subject = this.BuildService(mockRepository);
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
             Assert.ThrowsAny<ArgumentNullException>(() => subject.Create(null));
         }
@@ -421,10 +402,8 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
-
-            var subject = this.BuildService(mockRepository);
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
             Assert.Throws<ValidationException>(() => subject.Create(new CreateTruckInput
             {
@@ -449,10 +428,8 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
-
-            var subject = this.BuildService(mockRepository);
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
             Assert.Throws<ValidationException>(() => subject.Create(new CreateTruckInput
             {
@@ -477,10 +454,8 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
                 Plate = "AAA0000"
             };
 
-            var mockRepository = new Mock<ITruckRepository>();
-            mockRepository.Setup(m => m.Trucks()).Returns(new List<Truck> { model }.AsQueryable());
-
-            var subject = this.BuildService(mockRepository);
+            using var context = this.BuildContext();
+            var subject = this.BuildService(context);
 
             Assert.Throws<ValidationException>(() => subject.Create(new CreateTruckInput
             {
@@ -493,13 +468,26 @@ namespace TrucksTest.API.UnitTest.Domain.Trucks.Services
         }
         #endregion
 
-        private TruckService BuildService(Mock<ITruckRepository> repositoryMock)
+        private DataContext BuildContext()
         {
+            var builder = new DbContextOptionsBuilder<DataContext>();
+
+            builder
+                .UseInMemoryDatabase($"{nameof(TruckServiceTest)}_{Guid.NewGuid()}")
+                .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+
+            return new DataContext(builder.Options);
+        }
+
+        private TruckService BuildService(DataContext context)
+        {
+            var repository = new TruckRepository(context);
+
             var mapper = this.Container.Resolve<IMapper>();
             var updateValidator = this.Container.Resolve<IValidator<UpdateTruckInput>>();
             var createValidator = this.Container.Resolve<IValidator<CreateTruckInput>>();
 
-            return new TruckService(repositoryMock.Object, mapper, updateValidator, createValidator);
+            return new TruckService(repository, mapper, updateValidator, createValidator);
         }
     }
 }

@@ -29,13 +29,17 @@ namespace TrucksTest.API.Domain.Trucks.Repositories
 
         public EntityEntry<Truck> UpdateTruck(Truck newData)
         {
-            var entity = this.Context.Trucks.Update(newData);
+            var entity = this.Context.Entry(newData);
+            entity.State = EntityState.Modified;
+
             return entity;
         }
 
         public EntityEntry<Truck> RemoveTruck(Truck data)
         {
-            var entity = this.Context.Trucks.Remove(data);
+            var entity = this.Context.Entry(data);
+            entity.State = EntityState.Deleted;
+
             return entity;
         }
 
