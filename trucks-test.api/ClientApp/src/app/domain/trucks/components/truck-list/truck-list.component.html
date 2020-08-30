@@ -16,7 +16,11 @@
     <div class="card-body">
       <div class="row p-2">
         <div class="table-responsive">
-          <table class="table tablesorter table-bordered">
+          <table class="table tablesorter table-bordered"
+                 [attr.data-interval]="intervalId"
+                 [attr.data-loaded]="loaded"
+                 [attr.data-isReady]="isReady">
+
             <thead>
               <tr>
                 <th scope="col" class="d-table-cell">Type</th>
@@ -35,7 +39,7 @@
               </tr>
             </tbody>
 
-            <tbody *ngIf="loaded && !data.length">
+            <tbody *ngIf="loaded && !isReady">
               <tr>
                 <td colspan="5" class="text-center">
                   No data found
@@ -43,7 +47,7 @@
               </tr>
             </tbody>
 
-            <tbody *ngIf="loaded && data.length">
+            <tbody *ngIf="loaded && isReady">
               <tr *ngFor="let item of data">
                 <td class="d-table-cell">
                   <p> {{ item.truckType }} </p>

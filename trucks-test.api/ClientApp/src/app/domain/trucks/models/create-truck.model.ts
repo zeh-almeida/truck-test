@@ -20,8 +20,8 @@ export const FormOptions = {
   fabricationYear: [currentYear, [Validators.required, Validators.min(currentYear), Validators.max(currentYear)]],
   modelYear: [currentYear, [Validators.required, Validators.min(currentYear), Validators.max(currentYear + 1)]],
 
-  name: [null, Validators.nullValidator],
-  plate: [null, Validators.nullValidator],
+  name: [null, [Validators.maxLength(255)]],
+  plate: [null, [Validators.maxLength(10)]],
 };
 
 export const FormValidations = {
