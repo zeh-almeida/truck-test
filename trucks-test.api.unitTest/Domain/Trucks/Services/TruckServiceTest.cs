@@ -3,8 +3,6 @@ using AutoMapper;
 using AutoMapper.Contrib.Autofac.DependencyInjection;
 using FluentValidation;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
-using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
