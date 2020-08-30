@@ -16,11 +16,7 @@
     <div class="card-body">
       <div class="row p-2">
         <div class="table-responsive">
-          <table class="table tablesorter table-bordered"
-                 [attr.data-interval]="intervalId"
-                 [attr.data-loaded]="loaded"
-                 [attr.data-isReady]="isReady">
-
+          <table class="table tablesorter table-bordered">
             <thead>
               <tr>
                 <th scope="col" class="d-table-cell">Type</th>
@@ -28,6 +24,7 @@
                 <th scope="col" class="d-table-cell">Model Year</th>
                 <th scope="col" class="d-table-cell">Name</th>
                 <th scope="col" class="d-table-cell">Plate</th>
+                <th scope="col" class="d-table-cell"></th>
               </tr>
             </thead>
 
@@ -67,6 +64,18 @@
 
                 <td class="d-table-cell">
                   <p> {{ item.plate }} </p>
+                </td>
+
+                <td class="d-table-cell">
+                  <button class="btn btn-link"
+                          type="button"
+                          placement="left"
+                          ngbTooltip="Delete"
+                          container="body"
+                          (click)="deleteTruck(item)">
+
+                    <i class="fa fa-trash-alt"></i>
+                  </button>
                 </td>
               </tr>
             </tbody>

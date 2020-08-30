@@ -46,4 +46,9 @@ export class TruckListComponent implements OnInit, OnDestroy {
         this.changeDetectorRef.detectChanges();
       });
   }
+
+  deleteTruck(item: any) {
+    this.orderService.delete(item.id)
+      .subscribe(() => this.onRefresh());
+  }
 }
