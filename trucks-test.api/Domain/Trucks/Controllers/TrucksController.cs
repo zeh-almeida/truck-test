@@ -114,5 +114,30 @@ namespace TrucksTest.API.Domain.Trucks.Controllers
             }
         }
         #endregion
+
+        #region POST
+        /// <summary>
+        /// Creates a Truck
+        /// </summary>
+        /// <param name="input">Data of the Truck to be created</param>
+        /// <returns>Created Truck</returns>
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
+        public ActionResult<GetTruckResult> CreateTruck([FromBody] CreateTruckInput input)
+        {
+            try
+            {
+                var result = this.TruckService.Create(input);
+                return !(result is null) ? this.Ok(result) : this.BadRequest() as ActionResult;
+            }
+            catch (Exception ex)
+            {
+                this.Logger.LogError(ex, $"Error creating Truck");
+                return this.BadRequest();
+            }
+        }
+        #endregion
     }
 }
