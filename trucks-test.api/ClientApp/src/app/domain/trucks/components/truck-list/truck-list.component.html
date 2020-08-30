@@ -1,0 +1,59 @@
+
+<div class="row">
+  <div class="card col-12 p-0">
+    <div class="card-header">
+      <h4 class="card-title">
+        <span>
+          <i class="fa fa-clock"></i> Order History
+        </span>
+
+        <button class="btn btn-sm float-right text-light" type="button" (click)="onRefresh()">
+          <i class="fa fa-sync-alt fa-2x"></i>
+        </button>
+      </h4>
+    </div>
+
+    <div class="card-body">
+      <div class="row p-2">
+        <div class="table-responsive">
+          <table class="table tablesorter table-bordered">
+            <thead>
+              <tr>
+                <th scope="col" class="d-table-cell">Input</th>
+                <th scope="col" class="d-table-cell">Output</th>
+              </tr>
+            </thead>
+
+            <tbody *ngIf="!loaded">
+              <tr>
+                <td colspan="2" class="text-center">
+                  <i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+                </td>
+              </tr>
+            </tbody>
+
+            <tbody *ngIf="loaded && !data.length">
+              <tr>
+                <td colspan="2" class="text-center">
+                  No data found
+                </td>
+              </tr>
+            </tbody>
+
+            <tbody *ngIf="loaded && data.length">
+              <tr *ngFor="let item of data">
+                <td class="d-table-cell">
+                  <p> {{ item.input }} </p>
+                </td>
+
+                <td class="d-table-cell">
+                  <p> {{ item.output }} </p>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -132,5 +132,23 @@
 
     <ItemGroup>
       <None Remove="..\.dockerignore" />
+      <None Remove="ClientApp\src\app\domain\common\services\abstract.service.ts" />
+      <None Remove="ClientApp\src\app\domain\trucks\models\create-truck.model.ts" />
+      <None Remove="ClientApp\src\app\domain\trucks\models\get-truck.model.ts" />
+      <None Remove="ClientApp\src\app\domain\trucks\models\update-truck.model.ts" />
+      <None Remove="ClientApp\src\app\domain\trucks\services\truck.service.ts" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="ClientApp\src\app\domain\trucks\components\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <TypeScriptCompile Update="ClientApp\src\app\domain\trucks\models\create-truck.model.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
+      <TypeScriptCompile Update="ClientApp\src\app\domain\trucks\models\update-truck.model.ts">
+        <SubType>Code</SubType>
+      </TypeScriptCompile>
     </ItemGroup>
 </Project>
