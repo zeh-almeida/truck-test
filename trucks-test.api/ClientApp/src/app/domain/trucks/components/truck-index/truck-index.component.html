@@ -17,12 +17,12 @@
       </div>
 
       <div class="row mt-3">
-        <app-truck-list></app-truck-list>
+        <app-truck-list (truckUpdate)=" updateTruck($event)"></app-truck-list>
       </div>
     </div>
   </div>
 </div>
 
 <ng-template #modalCreate let-close="close">
-  <app-truck-create (truckCreate)="onTruckCreate($event)" (close)="onModalClose($event)"></app-truck-create>
+  <app-truck-create (truckCreate)="onTruckEvent($event)" (close)="onModalClose($event)"></app-truck-create>
 </ng-template>

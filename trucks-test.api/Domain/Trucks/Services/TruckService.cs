@@ -82,7 +82,8 @@ namespace TrucksTest.API.Domain.Trucks.Services
             var updated = this.Repository.UpdateTruck(updatedData);
             this.Repository.Save();
 
-            return this.ModelMapper.Map<GetTruckResult>(updated);
+            updated.Reload();
+            return this.ModelMapper.Map<GetTruckResult>(updated.Entity);
         }
         #endregion
 
@@ -104,7 +105,8 @@ namespace TrucksTest.API.Domain.Trucks.Services
             var removed = this.Repository.RemoveTruck(data);
             this.Repository.Save();
 
-            return this.ModelMapper.Map<GetTruckResult>(removed);
+            removed.Reload();
+            return this.ModelMapper.Map<GetTruckResult>(removed.Entity);
         }
         #endregion
 
@@ -122,7 +124,8 @@ namespace TrucksTest.API.Domain.Trucks.Services
             var created = this.Repository.AddTruck(newData);
             this.Repository.Save();
 
-            return this.ModelMapper.Map<GetTruckResult>(created);
+            created.Reload();
+            return this.ModelMapper.Map<GetTruckResult>(created.Entity);
         }
         #endregion
     }

@@ -7,6 +7,7 @@ import { TruckService } from './services/truck.service';
 
 import { TruckListComponent } from './components/truck-list/truck-list.component';
 import { TruckCreateComponent } from './components/truck-create/truck-create.component';
+import { TruckUpdateComponent } from './components/truck-update/truck-update.component';
 import { TruckIndexComponent } from './components/truck-index/truck-index.component';
 
 @NgModule({
@@ -20,12 +21,14 @@ import { TruckIndexComponent } from './components/truck-index/truck-index.compon
   declarations: [
     TruckListComponent,
     TruckCreateComponent,
+    TruckUpdateComponent,
     TruckIndexComponent
   ],
 
   exports: [
     TruckListComponent,
     TruckCreateComponent,
+    TruckUpdateComponent,
     TruckIndexComponent
   ],
 

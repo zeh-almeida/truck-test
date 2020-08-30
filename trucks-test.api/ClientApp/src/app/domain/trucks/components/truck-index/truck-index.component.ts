@@ -1,7 +1,6 @@
 import {
   Component,
   ChangeDetectionStrategy,
-  OnInit,
   OnDestroy,
   ViewChild,
   TemplateRef
@@ -21,16 +20,13 @@ import { TruckListComponent } from '../truck-list/truck-list.component';
   templateUrl: './truck-index.component.html',
   styleUrls: ['./truck-index.component.scss']
 })
-export class TruckIndexComponent implements OnInit, OnDestroy {
+export class TruckIndexComponent implements OnDestroy {
   @ViewChild(TruckListComponent, { static: false }) private listComponent: TruckListComponent;
   @ViewChild('modalCreate', { static: true }) createModal: TemplateRef<any>;
 
   private orderSubscription: Subscription;
 
   constructor(private modal: NgbModal) {
-  }
-
-  ngOnInit() {
   }
 
   ngOnDestroy() {
@@ -45,7 +41,7 @@ export class TruckIndexComponent implements OnInit, OnDestroy {
     this.modal.dismissAll();
   }
 
-  onTruckCreate(event: any) {
+  onTruckEvent(event: any) {
     this.listComponent.onRefresh();
   }
 }

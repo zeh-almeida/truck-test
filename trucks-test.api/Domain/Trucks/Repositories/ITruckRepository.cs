@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Linq;
 using TrucksTest.API.Domain.Trucks.Models.Entities;
 
 namespace TrucksTest.API.Domain.Trucks.Repositories
@@ -7,11 +8,11 @@ namespace TrucksTest.API.Domain.Trucks.Repositories
     {
         IQueryable<Truck> Trucks();
 
-        Truck UpdateTruck(Truck newData);
+        EntityEntry<Truck> UpdateTruck(Truck newData);
 
-        Truck RemoveTruck(Truck data);
+        EntityEntry<Truck> RemoveTruck(Truck data);
 
-        Truck AddTruck(Truck data);
+        EntityEntry<Truck> AddTruck(Truck data);
 
         void Save();
     }

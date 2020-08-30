@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using System.Linq;
 using TrucksTest.API.Domain.Commons.Repositories.Context;
 using TrucksTest.API.Domain.Trucks.Models.Entities;
@@ -26,24 +27,22 @@ namespace TrucksTest.API.Domain.Trucks.Repositories
                        .AsQueryable();
         }
 
-        public Truck UpdateTruck(Truck newData)
+        public EntityEntry<Truck> UpdateTruck(Truck newData)
         {
             var entity = this.Context.Trucks.Update(newData);
-            entity.Reload();
-
-            return entity.Entity;
+            return entity;
         }
 
-        public Truck RemoveTruck(Truck data)
+        public EntityEntry<Truck> RemoveTruck(Truck data)
         {
             var entity = this.Context.Trucks.Remove(data);
-            return entity.Entity;
+            return entity;
         }
 
-        public Truck AddTruck(Truck data)
+        public EntityEntry<Truck> AddTruck(Truck data)
         {
             var entity = this.Context.Trucks.Add(data);
-            return entity.Entity;
+            return entity;
         }
 
         public void Save()

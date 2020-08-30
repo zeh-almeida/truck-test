@@ -36,7 +36,7 @@ export class TruckService extends AbstractService {
   update(id: string, data: UpdateTruck): Observable<GetTruck> {
     const uri = `${this.serviceUri}/${id}`;
 
-    return this.http.post<GetTruck>(uri, data)
+    return this.http.put<GetTruck>(uri, data)
       .pipe(catchError(this.handleError<GetTruck>('update')));
   }
 

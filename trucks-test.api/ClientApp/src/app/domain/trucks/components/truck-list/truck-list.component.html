@@ -70,6 +70,16 @@
                   <button class="btn btn-link"
                           type="button"
                           placement="left"
+                          ngbTooltip="Update"
+                          container="body"
+                          (click)="updateTruck(item)">
+
+                    <i class="fa fa-pencil-alt"></i>
+                  </button>
+
+                  <button class="btn btn-link"
+                          type="button"
+                          placement="left"
                           ngbTooltip="Delete"
                           container="body"
                           (click)="deleteTruck(item)">
@@ -85,3 +95,9 @@
     </div>
   </div>
 </div>
+
+<ng-template #modalUpdate let-close="close">
+  <app-truck-update (truckUpdate)="onTruckEvent($event)" (close)="onModalClose($event)" [truckId]="selectedTruckId"></app-truck-update>
+</ng-template>
+
+
